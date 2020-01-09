@@ -1,0 +1,75 @@
+I"<<blockquote>
+  <p>比较水的 Personal Notes</p>
+</blockquote>
+
+<h2 id="查看你的系统有几种shell">查看你的系统有几种shell</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>cat /etc/shells
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>显示</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre>/bin/bash
+/bin/csh
+/bin/ksh
+/bin/sh
+/bin/tcsh
+/bin/zsh
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="安装-oh-my-zsh">安装 oh my zsh</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>重新打开终端，输入</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>zsh
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>即可切换终端，并且发现 oh my zsh 已经帮我们配置好 zsh 了</p>
+
+<h2 id="修改主题">修改主题</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>open ~/.zshrc 
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>修改 <code class="highlighter-rouge">ZSH_THEME=”robbyrussell”</code>，主题在 ~/.oh-my-zsh/themes 目录下。
+修改为</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>ZSH_THEME="kolo"
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>可以<a href="https://github.com/robbyrussell/oh-my-zsh/wiki/themes">参照这里</a>进行选择.</p>
+
+<h2 id="设置为默认shell">设置为默认shell</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>chsh -s /bin/zsh
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="添加自定义命令">添加自定义命令</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre>open ~/.zshrc 添加显示隐藏文件的快捷命令
+
+alias fd='defaults write com.apple.finder AppleShowAllFiles -boolean true ; killall Finder'
+alias fh='defaults write com.apple.finder AppleShowAllFiles -boolean false ; killall Finder'
+</pre></td></tr></tbody></table></code></pre></div></div>
+:ET

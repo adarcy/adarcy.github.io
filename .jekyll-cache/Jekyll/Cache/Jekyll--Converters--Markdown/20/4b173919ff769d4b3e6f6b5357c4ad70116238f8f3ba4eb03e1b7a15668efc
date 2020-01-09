@@ -1,0 +1,88 @@
+I"<h2 id="android-源码编译">Android 源码编译</h2>
+<h3 id="源码下载">源码下载</h3>
+<p>官方下载说明地址 https://source.android.google.cn/source/downloading.html</p>
+
+<p>————————————————
+版权声明：本文为CSDN博主「Sumu」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/u012528526/article/details/87994711</p>
+
+<h4 id="搭建编译环境创建磁盘映像">搭建编译环境(创建磁盘映像)</h4>
+<p>因为mac默认的磁盘环境是不区分大小的，而git并不支持此类文件系统，所以我们需要创建我们所需要的磁盘映像用来存放下载的源码。</p>
+
+<!--首先你需要找在mac上的磁盘工具，一般是在应用程序列表-其他文件夹里面。
+![](https://img-blog.csdnimg.cn/20190227223659782.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTI1Mjg1MjY=,size_16,color_FFFFFF,t_70#pic_center)
+2. 如果你是想从mac上分一块区域，选择磁盘然后新建空白映像。
+![](https://img-blog.csdnimg.cn/20190227230714191.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTI1Mjg1MjY=,size_16,color_FFFFFF,t_70#pic_center)
+
+![](https://img-blog.csdnimg.cn/20190228103540857.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTI1Mjg1MjY=,size_16,color_FFFFFF,t_70#pic_center)-->
+<ol>
+  <li>如果是mac则是按第二步建立磁盘映像即可，大小最小150G，能大一点更好，因为它只是映像，只占用实际使用的空间，但是如果划分小了，就比较麻烦了，格式一定要选择Mac OS 扩展（区分大小写，日志式），如果你使用移动硬盘我推荐直接全部格式化成指定格式，这样可以直接使用，不用考虑大小的问题。</li>
+</ol>
+
+<h4 id="安装repo">安装Repo</h4>
+
+<p>1、打开终端，依次输入以下的命令，创建bin文件夹，并加入到临时环境变量中：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>mkdir ~/bin       //创建bin文件夹
+PATH=~/bin:$PATH  //将该文件夹路径加到临时环境变量中
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>2、下载Repo</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>//下载到我们上一步创建的bin文件夹中
+curl https://storage.googleapis.com/git-repo-downloads/repo &gt; ~/bin/repo 
+chmod a+x ~/bin/repo    //修改repo的权限
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>3、初始化 Repo 客户端
+新装载路径为/Volumes/aosp，所以我们需要在该目录下进行初始化：</p>
+
+<p>切换到该目录下，并且创建一个aosp的工作目录：working_directory</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>$ cd /Volumes/android/
+$ mkdir working_directory
+$ cd working_directory
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>运行 repo init 以获取最新版本的 Repo 及其最近的所有错误更正内容。您必须为清单指定一个网址，该网址用于指定 Android 源代码中包含的各个代码库将位于工作目录中的什么位置。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>repo init -u https://android.googlesource.com/platform/manifest
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>要对“master”以外的分支进行校验，请使用 -b 来指定相应分支。要查看分支列表，请参阅源代码标记和版本。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>repo init -u https://android.googlesource.com/platform/manifest -b android-4.0.1_r1
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>看到命令行中出现  repo has been initialized in /Volumes/aosp/working_directory  就是初始化好了</p>
+
+<p>执行下面的脚本拉取代码</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>repo sync
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>这里用的是从google仓库拉取</p>
+
+<h4 id="遇到问题">遇到问题</h4>
+<p>Failed to connect to android.googlesource.com port 443: Timed out</p>
+
+<p>因为使用翻墙 git要配置代理</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>git config –global http.proxy 127.0.0.1:8087
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>下载的7.0.0的源码  大概下载了十几个小时</p>
+
+:ET
